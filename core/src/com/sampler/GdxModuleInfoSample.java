@@ -1,11 +1,14 @@
 package com.sampler;
 
 import com.badlogic.gdx.Application;
-import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Logger;
+import com.sampler.common.SampleBase;
+import com.sampler.common.SampleInfo;
 
-public class GdxModuleInfoSample implements ApplicationListener {
+public class GdxModuleInfoSample extends SampleBase {
+
+    public static final SampleInfo SAMPLE_INFO = new SampleInfo(GdxModuleInfoSample.class);
 
     private static final Logger log = new Logger(GdxModuleInfoSample.class.getName(), Logger.DEBUG);
 

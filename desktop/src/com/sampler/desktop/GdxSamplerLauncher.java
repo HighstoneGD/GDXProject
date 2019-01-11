@@ -2,7 +2,8 @@ package com.sampler.desktop;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.lwjgl.LwjglAWTCanvas;
-import com.badlogic.gdx.utils.reflect.ClassReflection;
+import com.sampler.common.SampleFactory;
+import com.sampler.common.SampleInfos;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
@@ -16,6 +17,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.Arrays;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -25,8 +27,6 @@ import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
-
-import sun.security.provider.PolicySpiFile;
 
 public class GdxSamplerLauncher extends JFrame {
     private static final int WIDTH = 1280;
@@ -51,7 +51,7 @@ public class GdxSamplerLauncher extends JFrame {
         c.fill = GridBagConstraints.VERTICAL;
         c.weighty = 1;
 
-        sampleList = new JList(new String[] {"com.sampler.InputPollingSample"});
+        sampleList = new JList(SampleInfos.getSampleNames().toArray());
         sampleList.setFixedCellWidth(CELL_WIDTH);
         sampleList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         sampleList.addMouseListener(new MouseAdapter() {
@@ -83,7 +83,7 @@ public class GdxSamplerLauncher extends JFrame {
     }
 
     private void launchSelectedSample() {
-        String sampleName = (String)sampleList.getSelectedValue();
+        String sampleName = (String) sampleList.getSelectedValue();
 
         if (sampleName == null || sampleName.isEmpty()) {
             System.out.println("Sample name is empty; cannot launch");
@@ -128,13 +128,7 @@ public class GdxSamplerLauncher extends JFrame {
             container.remove(lwjglAWTCanvas.getCanvas());
         }
 
-        ApplicationListener sample;
-        try {
-            Class<ApplicationListener> clazz = ClassReflection.forName(name);
-            sample = ClassReflection.newInstance(clazz);
-        } catch (Exception e) {
-            throw new RuntimeException("Cannot create sample with name = " + name, e);
-        }
+        ApplicationListener sample = SampleFactory.newSample(name);
 
         lwjglAWTCanvas = new LwjglAWTCanvas(sample);
         lwjglAWTCanvas.getCanvas().setSize(CANVAS_WIDTH, HEIGHT);

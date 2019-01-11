@@ -1,19 +1,20 @@
 package com.sampler;
 
 import com.badlogic.gdx.Application;
-import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.sampler.common.SampleBase;
+import com.sampler.common.SampleInfo;
 import com.sampler.utils.GdxUtils;
 
-public class InputPollingSample implements ApplicationListener {
+public class InputPollingSample extends SampleBase {
 
+    public static final SampleInfo SAMPLE_INFO = new SampleInfo(InputPollingSample.class);
 
     private OrthographicCamera camera;
     private Viewport viewport;
