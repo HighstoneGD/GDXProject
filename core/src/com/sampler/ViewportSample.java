@@ -16,6 +16,7 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.sampler.common.SampleBase;
 import com.sampler.common.SampleInfo;
+import com.sampler.utils.GdxUtils;
 
 public class ViewportSample extends SampleBase {
 
@@ -47,6 +48,25 @@ public class ViewportSample extends SampleBase {
 
         createViewports();
         selectNextViewport();
+
+        Gdx.input.setInputProcessor(this);
+    }
+
+    @Override
+    public void render() {
+        GdxUtils.clearScreen();
+
+        batch.setProjectionMatrix(camera.combined);
+        batch.begin();
+
+        draw();
+
+        batch.end();
+    }
+
+    private void draw() {
+        batch.draw(texture, 0, 0, WORLD_WIDTH, WORLD_HEIGHT);
+        font.draw(batch, currentViewportName, 50, 100);
     }
 
     @Override
@@ -84,5 +104,15 @@ public class ViewportSample extends SampleBase {
                 new ExtendViewport(WORLD_WIDTH, WORLD_HEIGHT, camera));
 
         currentViewportIndex = -1;
+    }
+
+    private void selectNextViewport() {
+        currentViewportIndex = (currentViewportIndex + 1) % viewports.size;
+
+        currentViewport = viewports.getValueAt(currentViewportIndex);
+        currentViewport.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        currentViewportName = viewports.getKeyAt(currentViewportIndex);
+
+        log.debug("selected viewport " + currentViewportName);
     }
 }
